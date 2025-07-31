@@ -1,16 +1,16 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : _name("Defualt"), _grade(150) {}
-
-// Bureaucrat::Bureaucrat(const std::string _name, int _grade)
-// {
-// 	std::cout << "Bureaucrat constructor called" << std::endl;
-// }
+Bureaucrat::Bureaucrat(const std::string &name, int grade) : _name(name)
+{
+	checkGrade(grade);
+	_grade = grade;
+	std::cout << "Bureaucrat constructor called" << std::endl;
+}
 
 Bureaucrat::~Bureaucrat() {}
 
 
-Bureaucrat::Bureaucrat(const Bureaucrat &source) : _grade(source._grade), _name(source._name) {}
+Bureaucrat::Bureaucrat(const Bureaucrat &source) : _name(source._name), _grade(source._grade) {}
 
 Bureaucrat &Bureaucrat::operator = (const Bureaucrat &source)
 {
@@ -19,9 +19,30 @@ Bureaucrat &Bureaucrat::operator = (const Bureaucrat &source)
 	return *this;
 }
 
+const char *Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return "Grade too high!";
+}
+
+const char *Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return "Grade too low!";
+}
+
+void Bureaucrat::checkGrade(int grade)
+{
+	if (grade < 1){
+		throw Bureaucrat::GradeTooHighException();
+	}
+	if (grade > 150){
+		throw Bureaucrat::GradeTooLowException();
+	}
+
+}
+
 const std::string &Bureaucrat::getName() const
 {
-	return this->_name;
+	return _name;
 }
 
 int Bureaucrat::getGrade() const
@@ -31,33 +52,16 @@ int Bureaucrat::getGrade() const
 
 void Bureaucrat::incrementGrade()
 {
-	try
-	{
-		_grade -= 1;
-		if (_grade < 1)
-			throw 505;
-	}
-	catch(...)
-	{
-		std::cerr << "the grade can not increase and got out of its range!(1-150)" << '\n';
-	}
-	
+	checkGrade(_grade - 1);
+	_grade -= 1;
+	std::cout << "The grade incremented!" << std::endl;;
 }
-// void Bureaucrat::decrementGrade();
 
 void Bureaucrat::decrementGrade()
 {
-	try
-	{
-		_grade += 1;
-		if (_grade > 150)
-			throw 505;
-	}
-	catch(...)
-	{
-		std::cerr << "the grade can not decrease and got out of its range!(1-150)" << '\n';
-	}
-	
+	checkGrade(_grade + 1);
+	_grade += 1;
+	std::cout << "The grade decremented!" << std::endl;
 }
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &Bureaucrat)
 {
