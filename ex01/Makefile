@@ -1,4 +1,4 @@
-NAME = bureaucrat
+NAME = Form
 
 CFLAGS = -Wall -Wextra -Werror
 

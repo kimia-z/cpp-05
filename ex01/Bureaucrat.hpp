@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include "Form.hpp"
+
+class Form;
 
 class Bureaucrat
 {
@@ -38,7 +41,8 @@ public:
 		virtual const char *what() const throw();
 	};
 
-	
+	// Ex01
+	void				signForm(Form &source);
 };
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &Bureaucrat);
