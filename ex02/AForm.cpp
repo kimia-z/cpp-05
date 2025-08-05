@@ -22,8 +22,9 @@ AForm &AForm::operator = (const AForm &source)
 }
 
 // Exceptions
-const char *AForm::GradeTooHighException::what() const throw() { return "AForm grade is too high";}
-const char *AForm::GradeTooLowException::what() const throw() { return "AForm grade is too low";}
+const char *AForm::GradeTooHighException::what() const throw() { return "Form grade is too high";}
+const char *AForm::GradeTooLowException::what() const throw() { return "Form grade is too low";}
+const char *AForm::FormNotSignedException::what() const throw() { return "Form is not signed";}
 
 // Getters
 std::string	AForm::getName() const { return _name;}
@@ -52,6 +53,8 @@ void AForm::checkGrade(int grade)
 
 std::ostream &operator << (std::ostream &out, const AForm &source)
 {
-	out << "AForm " << source.getName() << " is " << (source.getIsSigned() ? "signed" : "not signed") << std::endl;
+	out << "AForm " << source.getName() << " is " << (source.getIsSigned() ? "signed" : "not signed") 
+		<< ", Grade to sign: " << source.getGradeToSign() 
+		<< ", Grade to execute: " << source.getGradeToExecute() << "." << std::endl;
 	return out;
 }

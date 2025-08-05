@@ -4,7 +4,7 @@ Bureaucrat::Bureaucrat(const std::string &name, int grade) : _name(name)
 {
 	checkGrade(grade);
 	_grade = grade;
-	std::cout << "Bureaucrat constructor called" << std::endl;
+	// std::cout << "Bureaucrat constructor called" << std::endl;
 }
 
 Bureaucrat::~Bureaucrat() {}
@@ -69,28 +69,31 @@ std::ostream &operator<<(std::ostream &out, const Bureaucrat &Bureaucrat)
 }
 
 // Ex01:Form
-// void Bureaucrat::signForm(Form &source)
-// {
-// 	try{
-// 		source.beSigned(*this);
-// 		std::cout << _name << " signed " << source.getName() << std::endl;
-// 	}
-// 	catch(const Form::GradeTooLowException &e)
-// 	{
-// 		std::cout << _name << " couldn’t sign " << source.getName() << " because " << e.what() << std::endl;
-// 	}
-// }
+void Bureaucrat::signForm(AForm &source)
+{
+	try{
+		source.beSigned(*this);
+		std::cout << getName() << " signed " << source.getName() << "!" << std::endl;
+	}
+	catch(const AForm::GradeTooLowException &e)
+	{
+		std::cout << getName() << " couldn’t sign " << source.getName()
+				<< " because " << e.what() << "!" << std::endl;
+	}
+}
 
 // Ex02
 
-void	Bureaucrat::executeForm(AForm const & form)
+void	Bureaucrat::executeForm(AForm const & form) const
 {
 	try
 	{
 		form.execute(*this);
-		std::cout << _name << " executed " << form.getName() << std::endl;}
+		std::cout << getName() << " executed " << form.getName() << "!" << std::endl;
+	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << this->getName() << " couldn't execute " << form.getName()
+				<< " because " << e.what() << "!" << std::endl;
 	}
 }

@@ -1,53 +1,63 @@
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 #include <iostream>
 
 int main() {
-	std::cout << "--- TEST 1: Bureaucrat with high enough grade signs a form ---" << std::endl;
+	std::cout << "--- TEST 1: ShrubberyCreationForm (Success) ---\n" << std::endl;
 	try {
-		Bureaucrat highGradeBureaucrat("Bob", 40);
-		Form easyForm("28B", 50, 100);
-
-		std::cout << highGradeBureaucrat << std::endl;
-		std::cout << easyForm << std::endl;
-
-		highGradeBureaucrat.signForm(easyForm);
-		std::cout << easyForm << std::endl;
+		Bureaucrat highGradeGuy("John", 130);
+		ShrubberyCreationForm form1("Home");
+		highGradeGuy.signForm(form1);
+		highGradeGuy.executeForm(form1);
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	std::cout << std::endl;
 
-	std::cout << "--- TEST 2: Bureaucrat with too low grade fails to sign a form ---" << std::endl;
+	std::cout << "--- TEST 2: RobotomyRequestForm (Success/Failure) ---\n" << std::endl;
 	try {
-		Bureaucrat lowGradeBureaucrat("Alice", 60);
-		Form hardForm("28C", 50, 100);
-
-		std::cout << lowGradeBureaucrat << std::endl;
-		std::cout << hardForm << std::endl;
-
-		lowGradeBureaucrat.signForm(hardForm);
-		std::cout << hardForm << std::endl;
+		Bureaucrat mediumGradeGuy("Tom", 40);
+		RobotomyRequestForm form2("Robotomy");
+		mediumGradeGuy.signForm(form2);
+		mediumGradeGuy.executeForm(form2); // 50% chance of success
+		mediumGradeGuy.executeForm(form2); // 50% chance of success
+	} catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+	std::cout << std::endl;
+	
+	std::cout << "--- TEST 3: PresidentialPardonForm (Success) ---\n" << std::endl;
+	try {
+		Bureaucrat president("Goerge", 3);
+		PresidentialPardonForm form3("Zaphod Beeblebrox");
+		president.signForm(form3);
+		president.executeForm(form3);
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	std::cout << std::endl;
 
-	std::cout << "--- TEST 3: Invalid Form creation (too high grade) ---" << std::endl;
+	std::cout << "--- TEST 4: PresidentialPardonForm (Grade Too Low to execute) ---\n" << std::endl;
 	try {
-		Form invalidForm("Invalid", 0, 100);
-		std::cout << invalidForm << std::endl;
+		Bureaucrat president("Goerge", 6);
+		PresidentialPardonForm form3("Zaphod Beeblebrox");
+		president.signForm(form3);
+		president.executeForm(form3); // President's grade is 6, needs 5
 	} catch (const std::exception& e) {
-		std::cerr << "Caught exception: " << e.what() << std::endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	std::cout << std::endl;
 
-	std::cout << "--- TEST 4: Invalid Form creation (too low grade) ---" << std::endl;
+	std::cout << "--- TEST 5: ShrubberyCreationForm (Not Signed) ---\n" << std::endl;
 	try {
-		Form invalidForm("Invalid 2", 151, 100);
-		std::cout << invalidForm << std::endl;
+		Bureaucrat highGradeGuy("John", 130);
+		ShrubberyCreationForm form1("School");
+		highGradeGuy.executeForm(form1); // Not signed
 	} catch (const std::exception& e) {
-		std::cerr << "Caught exception: " << e.what() << std::endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	std::cout << std::endl;
 
